@@ -1,28 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  tranding: [],
   detail: [],
   popular: [],
+  search: [],
+  trailer: [],
 };
 
 const movieSlice = createSlice({
   name: "movie",
   initialState,
   reducers: {
-    setTrandingMovie: (state, action) => {
-      state.tranding = action.payload;
-    },
     setDetailMovie: (state, action) => {
       state.detail = action.payload;
     },
     setPopular: (state, action) => {
       state.popular = action.payload;
     },
+    setSearch: (state, action) => {
+      state.search = action.payload;
+    },
+    setTrailer: (state, action) => {
+      state.trailer = action.payload;
+    },
   },
 });
 
-export const { setTrandingMovie, setDetailMovie, setPopular } =
+export const { setDetailMovie, setPopular, setSearch, setTrailer } =
   movieSlice.actions;
 
 export default movieSlice.reducer;
