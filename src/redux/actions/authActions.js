@@ -55,9 +55,6 @@ export const register =
       dispatch(setToken(token));
 
       // Redirect to home
-
-      // Redirect to home or reload the home
-      // This is temporary solution, the better solution is using redux
       navigate("/");
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -84,7 +81,6 @@ export const getMe =
         }
       );
       const { data } = response.data;
-
       // Set the user state from API data
       dispatch(setUser(data));
 
@@ -126,36 +122,8 @@ export const login = (email, password, navigate) => async (dispatch) => {
     // Save our token
     dispatch(setToken(token));
 
-    //* Redirect to home or reload the home
+    // Redirect to home
     navigate("/");
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      alert(error?.response?.data?.message);
-      return;
-    }
-    alert(error?.message);
-  }
-};
-
-export const getProfileData = () => async (dispatch, getState) => {
-  try {
-    const { token } = getState().auth;
-    if (!token) {
-      return;
-    }
-
-    const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/v1/auth/me`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    const { data } = response.data;
-
-    dispatch(setUser(data));
   } catch (error) {
     if (axios.isAxiosError(error)) {
       alert(error?.response?.data?.message);
