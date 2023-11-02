@@ -1,12 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import "../index.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getMe, logout } from "../redux/actions/authActions";
 
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const { user, token } = useSelector((state) => state.auth);
+
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
   const handleSearch = (e) => {
@@ -21,6 +24,8 @@ const Header = () => {
 
   const onLogout = () => {
     dispatch(logout());
+
+    // Redirect to id page
     navigate("/id");
   };
 
