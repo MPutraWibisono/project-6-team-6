@@ -1,12 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "reac
+import "../index.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getMe, logout } from "../redux/actions/authActions";
 
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const { user, token } = useSelector((state) => state.auth);
+
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
   const handleSearch = (e) => {
@@ -21,6 +24,8 @@ const Header = () => {
 
   const onLogout = () => {
     dispatch(logout());
+
+  // Redirect to id page
     navigate("/id");
   };
 
@@ -38,12 +43,13 @@ const Header = () => {
           Movielist
         </a>
         <div className="w-full relative mb-3 md:w-1/2 md:mb-0">
-          {user && (
+         {user && (
             <form action="search" onSubmit={handleSearch}>
               <input
                 type="text"
                 name="search"
                 placeholder="What do you want to watch?"
+                autoComplete="off"
                 className="outline-none font-semibold text-md bg-transparent border-none ring-2 ring-red-600 rounded-full border-red-600 w-full px-4 py-1 md:py-2"
               />
               <div className="absolute top-0 right-0 transform translate-y-1 md:translate-y-2 -translate-x-3">
