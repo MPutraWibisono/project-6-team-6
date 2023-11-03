@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setToken } from "../reducers/authReducer";
+import { setToken, setUser } from "../reducers/authReducer";
 
 export const registerLoginWithGoogleAction =
   (accessToken, navigate) => async (dispatch) => {
@@ -55,9 +55,6 @@ export const register =
       dispatch(setToken(token));
 
       // Redirect to home
-
-      // Redirect to home or reload the home
-      // This is temporary solution, the better solution is using redux
       navigate("/");
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -68,3 +65,70 @@ export const register =
       alert(error?.message);
     }
   };
+
+export const getMe =
+  (navigate, navigatePathSucces, navigateError) =>
+  async (dispatch, getState) => {
+    try {
+      const { token } = getState().auth;
+
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/v1/auth/me`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const { data } = response.data;
+      // Set the user state from API data
+      dispatch(setUser(data));
+
+      // if navigatePathError params is false/null/undefined, it will not executed
+      if (navigatePathSucces) navigate(navigatePathSucces);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        // If token is not valid
+        if (error.response.status === 401) {
+          dispatch(logout());
+
+          if (navigateError) navigate(navigateError);
+          return;
+        }
+        alert(error?.response?.data?.message);
+        return;
+      }
+      alert(error?.message);
+    }
+  };
+
+export const logout = () => (dispatch) => {
+  dispatch(setToken(null));
+  dispatch(setUser(null));
+};
+
+export const login = (email, password, navigate) => async (dispatch) => {
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/v1/auth/login`,
+      {
+        email,
+        password,
+      }
+    );
+    const { data } = response.data;
+    const { token } = data;
+
+    // Save our token
+    dispatch(setToken(token));
+
+    // Redirect to home
+    navigate("/");
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      alert(error?.response?.data?.message);
+      return;
+    }
+    alert(error?.message);
+  }
+};
