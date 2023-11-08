@@ -4,8 +4,8 @@ function Id() {
       <div className="max-w-3xl md:max-w-5xl">
         <div className="m-4">
           <h1 className="text-2xl font-bold text-center text-white sm:text-3xl md:text-4xl xl:text-5xl">
-            Welcome to the Movie App Website Staging, where this website can
-            help you find popular films
+            Welcome to the Movie App Test Staging, where this website can help
+            you find popular films
           </h1>
           <p className="mt-8 text-xl font-semibold text-center text-white md:text-2xl mb-7">
             Login now, to search for films
